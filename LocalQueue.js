@@ -1,25 +1,29 @@
 /*
-A queue implemented on top of local storage
-Supports the following methods
-#push
-#pop
-#getAll()
-#removeAll()
-*/
-_.LocalQueue = function(key) {
+ * LocalQueue
+ * A queue implemented on top of local storage
+ *
+ * Copyright 2014, loneranger
+ * Licensed under the MIT license
+ * Supports the following methods:
+ * #push
+ * #pop
+ * #getAll()
+ * #removeAll()
+ */
+LocalQueue = function(key) {
     if (!key) return null;
     //Init
     var exports = {};
     var DELIMITER = String.fromCharCode(31);
-    // var cachedQueueString = getFromLocalStorage(key);
-    var queueArr = [];
-    init();
     //methods
-    function init() {
-        queueArr = stringToArray(getFromLocalStorage(key));
+    function getFromLocalStorage(key) {
+        var storageItem = window.localStorage.getItem(key);
+        if (!storageItem || storageItem == null) {
+            window.localStorage.setItem(key, "");
+            return "";
+        }
+        return storageItem;
     }
-
-    function arrayToString(arr) {}
 
     function stringToArray(s) {
         var parseArr = [];
@@ -36,52 +40,54 @@ _.LocalQueue = function(key) {
         }
         return parseArr;
     }
-
-    function getFromLocalStorage(key) {
-        var storageItem = window.localStorage.getItem(key);
-        if (storageItem == null) {
-            window.localStorage.setItem(key, "");
-            return "";
-        }
-        return storageItem;
-    }
+    /*
+    Push an item into the queue
+    */
     exports.push = function(item) {
-        queueArr.push(item);
         try {
             var queueString = getFromLocalStorage(key);
             if (queueString == "") queueString += JSON.stringify(item);
             else queueString += DELIMITER + JSON.stringify(item);
             window.localStorage.setItem(key, queueString);
         } catch (err) {
-            queueArr.pop();
             return false;
         }
         return true;
     }
+    /*
+    Pop an item into the queue
+    */
     exports.pop = function() {
         try {
             var queueString = getFromLocalStorage(key);
             var firstDelimiterIndex = queueString.indexOf(DELIMITER);
             if (firstDelimiterIndex > -1) {
-                // var firstItemString =  queueString.substr(0,firstDelimiterIndex); 
+                var firstItemString = queueString.substr(0, firstDelimiterIndex);
                 queueString = queueString.substr(firstDelimiterIndex + 1)
                 window.localStorage.setItem(key, queueString);
-                // JSON.parse(firstItemString);
-                return queueArr.pop();
+                return JSON.parse(firstItemString);
+            } else if (queueString.length > 0) {
+                window.localStorage.setItem(key, "");
+                return JSON.parse(queueString);
             } else return null;
         } catch (err) {
             return null;
         }
         return null;
     }
+    /*
+    Get all items
+    */
     exports.getAll = function() {
-        return queueArr.slice();
+        return stringToArray(getFromLocalStorage(key));
     }
+    /*
+    Remove all Items
+    */
     exports.removeAll = function() {
-        var all = queueArr.slice();
-        queueArr = [];
+        var queueString = getFromLocalStorage(key);
         window.localStorage.setItem(key, "");
-        return all;
+        return stringToArray(queueString);
     }
     return exports;
 }
