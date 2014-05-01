@@ -39,6 +39,6 @@ Returns an a cloned array of the underlying queue.
 ## removeAll 
 
 ```
-localQueue.removeAll(item)
+localQueue.removeAll()
 ```
 Removes all items from the queue
