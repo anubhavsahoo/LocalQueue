@@ -4,7 +4,6 @@ LocalQueue
 A queue implementation backed by window.localStorage for providing persistent queue on the browser.
 
 # Usage 
-=====
 
 ## Initialize
 
@@ -28,7 +27,7 @@ item is converted to json and stored.
 ```
 localQueue.pop()
 ```
-the popped item is the original object that was pushed 
+The popped item is the original object that was pushed. Returns a null if queue is empty.
 
 ## getAll
 
@@ -43,8 +42,3 @@ Returns an a cloned array of the underlying queue.
 localQueue.removeAll(item)
 ```
 Removes all items from the queue
-
-
-#Note:
-
-This queue is meant ot be used as a singleton. Do not instantiate multiple 
