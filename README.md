@@ -29,6 +29,14 @@ localQueue.pop()
 ```
 The popped item is the original object that was pushed. Returns a null if queue is empty.
 
+## getFront
+
+```
+localQueue.getFront()
+```
+The front item is the original object that was pushed. Returns a null if queue is empty.
+Same as pop(), only non-destructive.
+
 ## getAll
 
 ```
