@@ -55,7 +55,7 @@ LocalQueue = function(key) {
         return true;
     }
     /*
-    Pop an item into the queue
+    Pop an item from the queue
     */
     exports.pop = function() {
         try {
@@ -63,7 +63,7 @@ LocalQueue = function(key) {
             var firstDelimiterIndex = queueString.indexOf(DELIMITER);
             if (firstDelimiterIndex > -1) {
                 var firstItemString = queueString.substr(0, firstDelimiterIndex);
-                queueString = queueString.substr(firstDelimiterIndex + 1)
+                queueString = queueString.substr(firstDelimiterIndex + 1);
                 window.localStorage.setItem(key, queueString);
                 return JSON.parse(firstItemString);
             } else if (queueString.length > 0) {
@@ -75,6 +75,25 @@ LocalQueue = function(key) {
         }
         return null;
     }
+    /*
+       same as Pop, only non-destructive (read-only)
+    */
+    exports.getFront = function() {
+        try {
+            var queueString = getFromLocalStorage(key);
+            var firstDelimiterIndex = queueString.indexOf(DELIMITER);
+            if (firstDelimiterIndex > -1) {
+                var firstItemString = queueString.substr(0, firstDelimiterIndex);
+                return JSON.parse(firstItemString);
+            } else if (queueString.length > 0) {
+                return JSON.parse(queueString);
+            } else return null;
+        } catch (err) {
+            return null;
+        }
+        return null;
+    }
+
     /*
     Get all items
     */
