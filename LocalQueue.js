@@ -94,6 +94,27 @@ LocalQueue = function(key) {
         return null;
     }
 
+
+    /*
+        reads the last pushed item, without delete from queue
+     */
+    exports.getBack = function() {
+    try {
+        var queueString = getFromLocalStorage(key);
+        var lastDelimiterIndex = queueString.lastIndexOf(DELIMITER);
+        if (lastDelimiterIndex > -1) {
+            var lastItemString = queueString.substr(lastDelimiterIndex+1);
+            return JSON.parse(lastItemString);
+        } else if (queueString.length > 0) {
+            return JSON.parse(queueString);
+        } else return null;
+    } catch (err) {
+    return null;
+    }
+    return null;
+    }
+
+
     /*
     Get all items
     */
