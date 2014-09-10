@@ -17,9 +17,9 @@ LocalQueue = function(key) {
     var DELIMITER = String.fromCharCode(31);
     //methods
     function getFromLocalStorage(key) {
-        var storageItem = window.localStorage.getItem(key);
+        var storageItem = localStorage.getItem(key);
         if (!storageItem || storageItem == null) {
-            window.localStorage.setItem(key, "");
+            localStorage.setItem(key, "");
             return "";
         }
         return storageItem;
@@ -48,7 +48,7 @@ LocalQueue = function(key) {
             var queueString = getFromLocalStorage(key);
             if (queueString == "") queueString += JSON.stringify(item);
             else queueString += DELIMITER + JSON.stringify(item);
-            window.localStorage.setItem(key, queueString);
+            localStorage.setItem(key, queueString);
         } catch (err) {
             return false;
         }
@@ -64,10 +64,10 @@ LocalQueue = function(key) {
             if (firstDelimiterIndex > -1) {
                 var firstItemString = queueString.substr(0, firstDelimiterIndex);
                 queueString = queueString.substr(firstDelimiterIndex + 1);
-                window.localStorage.setItem(key, queueString);
+                localStorage.setItem(key, queueString);
                 return JSON.parse(firstItemString);
             } else if (queueString.length > 0) {
-                window.localStorage.setItem(key, "");
+                localStorage.setItem(key, "");
                 return JSON.parse(queueString);
             } else return null;
         } catch (err) {
@@ -126,7 +126,7 @@ LocalQueue = function(key) {
     */
     exports.removeAll = function() {
         var queueString = getFromLocalStorage(key);
-        window.localStorage.setItem(key, "");
+        localStorage.setItem(key, "");
         return stringToArray(queueString);
     }
     return exports;
