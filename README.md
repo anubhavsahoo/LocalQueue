@@ -37,6 +37,14 @@ localQueue.getFront()
 The front item is the original object that was pushed. Returns a null if queue is empty.
 Same as pop(), only non-destructive.
 
+
+## getBack
+
+```
+localQueue.getBack()
+```
+Gets the last item pushed, with deleting from queue.
+
 ## getAll
 
 ```
