@@ -2,7 +2,7 @@
    LSQueue:  easy-to-use queue, using LocalQueue.
 
       Can be used as a higher performance queue, for larger string data, such as DOM images, etc.
-      The user must stringify the payload first.
+      If not already, the user must stringify the payload first.
 
    It creates a LocalQueue object for use as an index.  
      Then, the functions below handle index and payload.
@@ -13,6 +13,7 @@
     	getFrontLSQueue, 
     	getFrontLSQueueIndex, 
     	getBackLSQueue, 
+    	getBackLSQueueIndex, 
     	deleteFrontLSQueue 
     
    The queue will persist between windows ...
