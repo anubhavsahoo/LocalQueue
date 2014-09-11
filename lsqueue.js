@@ -1,5 +1,6 @@
 /* 
-   LSQueue:  easy-to-use queue, using LocalQueue.
+   LSQueue:  easy-to-use queue implementation, using LocalQueue.
+      (please load LocalQueue first, i.e. <script src="LocalQueue"></script>)
 
       Can be used as a higher performance queue, for larger string data, such as DOM images, etc.
       If not already, the user must stringify the payload first.
