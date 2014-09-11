@@ -1,4 +1,4 @@
-LocalQueue
+LocalQueue (see also LSQueue for an alternate implementation)
 ==========
 
 A queue implementation backed by localStorage for providing persistent queue on the browser. Can exchange data between tabs in the browser.
