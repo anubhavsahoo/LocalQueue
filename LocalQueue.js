@@ -5,10 +5,13 @@
  * Copyright 2014, loneranger
  * Licensed under the MIT license
  * Supports the following methods:
- * #push
- * #pop
+ * #push()
+ * #pop()
+ * #getFront()
+ * #getBack()
  * #getAll()
  * #removeAll()
+ 
  */
 LocalQueue = function(key) {
     if (!key) return null;
