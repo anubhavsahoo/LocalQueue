@@ -1,7 +1,7 @@
 LocalQueue
 ==========
 
-A queue implementation backed by window.localStorage for providing persistent queue on the browser.
+A queue implementation backed by localStorage for providing persistent queue on the browser.
 
 # Usage 
 
