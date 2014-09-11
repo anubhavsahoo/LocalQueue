@@ -35,7 +35,7 @@ function incrementString(str) {
 
 var plLocalQueueVar = new LocalQueue("plLQVIndex");  //   instance
 
-// just for string payloads
+// intended just for string payloads
  function pushLSQueue(theIndexNm,thePayload) {
    var thePushIStr = incrementString(plLocalQueueVar.getBack());   // incrementString handles nulls
    // check for valid string input for the the index name
