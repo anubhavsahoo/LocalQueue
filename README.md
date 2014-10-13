@@ -1,7 +1,7 @@
-LocalQueue
+LocalQueue 
 ==========
 
-A queue implementation backed by window.localStorage for providing persistent queue on the browser.
+A queue implementation backed by localStorage for providing persistent queue on the browser. Can exchange data between tabs in the browser. (see also LSQueue for an implementation)
 
 # Usage 
 
@@ -28,6 +28,22 @@ item is converted to json and stored.
 localQueue.pop()
 ```
 The popped item is the original object that was pushed. Returns a null if queue is empty.
+
+## getFront
+
+```
+localQueue.getFront()
+```
+The front item is the original object that was pushed. Returns a null if queue is empty.
+Same as pop(), only non-destructive.
+
+
+## getBack
+
+```
+localQueue.getBack()
+```
+Gets the last item pushed, with deleting from queue.
 
 ## getAll
 

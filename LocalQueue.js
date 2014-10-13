@@ -5,10 +5,13 @@
  * Copyright 2014, loneranger
  * Licensed under the MIT license
  * Supports the following methods:
- * #push
- * #pop
+ * #push()
+ * #pop()
+ * #getFront()
+ * #getBack()
  * #getAll()
  * #removeAll()
+ 
  */
 LocalQueue = function(key) {
     if (!key) return null;
@@ -17,9 +20,9 @@ LocalQueue = function(key) {
     var DELIMITER = String.fromCharCode(31);
     //methods
     function getFromLocalStorage(key) {
-        var storageItem = window.localStorage.getItem(key);
+        var storageItem = localStorage.getItem(key);
         if (!storageItem || storageItem == null) {
-            window.localStorage.setItem(key, "");
+            localStorage.setItem(key, "");
             return "";
         }
         return storageItem;
@@ -48,14 +51,14 @@ LocalQueue = function(key) {
             var queueString = getFromLocalStorage(key);
             if (queueString == "") queueString += JSON.stringify(item);
             else queueString += DELIMITER + JSON.stringify(item);
-            window.localStorage.setItem(key, queueString);
+            localStorage.setItem(key, queueString);
         } catch (err) {
             return false;
         }
         return true;
     }
     /*
-    Pop an item into the queue
+    Pop an item from the queue
     */
     exports.pop = function() {
         try {
@@ -63,11 +66,11 @@ LocalQueue = function(key) {
             var firstDelimiterIndex = queueString.indexOf(DELIMITER);
             if (firstDelimiterIndex > -1) {
                 var firstItemString = queueString.substr(0, firstDelimiterIndex);
-                queueString = queueString.substr(firstDelimiterIndex + 1)
-                window.localStorage.setItem(key, queueString);
+                queueString = queueString.substr(firstDelimiterIndex + 1);
+                localStorage.setItem(key, queueString);
                 return JSON.parse(firstItemString);
             } else if (queueString.length > 0) {
-                window.localStorage.setItem(key, "");
+                localStorage.setItem(key, "");
                 return JSON.parse(queueString);
             } else return null;
         } catch (err) {
@@ -75,6 +78,46 @@ LocalQueue = function(key) {
         }
         return null;
     }
+    /*
+       same as Pop, only non-destructive (read-only)
+    */
+    exports.getFront = function() {
+        try {
+            var queueString = getFromLocalStorage(key);
+            var firstDelimiterIndex = queueString.indexOf(DELIMITER);
+            if (firstDelimiterIndex > -1) {
+                var firstItemString = queueString.substr(0, firstDelimiterIndex);
+                return JSON.parse(firstItemString);
+            } else if (queueString.length > 0) {
+                return JSON.parse(queueString);
+            } else return null;
+        } catch (err) {
+            return null;
+        }
+        return null;
+    }
+
+
+    /*
+        reads the last pushed item, without delete from queue
+     */
+    exports.getBack = function() {
+    try {
+        var queueString = getFromLocalStorage(key);
+        var lastDelimiterIndex = queueString.lastIndexOf(DELIMITER);
+        if (lastDelimiterIndex > -1) {
+            var lastItemString = queueString.substr(lastDelimiterIndex+1);
+            return JSON.parse(lastItemString);
+        } else if (queueString.length > 0) {
+            return JSON.parse(queueString);
+        } else return null;
+    } catch (err) {
+    return null;
+    }
+    return null;
+    }
+
+
     /*
     Get all items
     */
@@ -86,7 +129,7 @@ LocalQueue = function(key) {
     */
     exports.removeAll = function() {
         var queueString = getFromLocalStorage(key);
-        window.localStorage.setItem(key, "");
+        localStorage.setItem(key, "");
         return stringToArray(queueString);
     }
     return exports;
