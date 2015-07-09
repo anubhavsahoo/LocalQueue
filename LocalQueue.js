@@ -58,6 +58,29 @@ LocalQueue = function(key) {
         return true;
     }
     /*
+    Push an array of items into the queue
+    This operation is transactional. Either all the array items get pushed or none get pushed.
+    */
+    exports.pushAll = function(itemArr) {
+        try {
+            if(Object.prototype.toString.call(itemArr) === '[object Array]') {
+                var queueString = getFromLocalStorage(key);
+                var tempQueueString = "";
+                for(var i=0; i<itemArr.length; i++){
+                    var item = itemArr[i];
+                    if (tempQueueString == "") tempQueueString += JSON.stringify(item);
+                    else tempQueueString += DELIMITER + JSON.stringify(item);
+                }
+                if (queueString == "") queueString += tempQueueString;
+                else queueString += DELIMITER + tempQueueString;
+                localStorage.setItem(key, queueString);
+            } else return false;
+        } catch (err) {
+            return false;
+        }
+        return true;
+    }
+    /*
     Pop an item from the queue
     */
     exports.pop = function() {
